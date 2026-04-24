@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al Corte</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #111111;
+            --bg-alt: #1A1A1A;
+            --bg-card: #1E1E1E;
+            --text-main: #FFFFFF;
+            --text-sec: #AAAAAA;
+            --border: #2A2A2A;
+            --accent-red: #E63946;
+            --accent-blue: #1D3557;
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 20px;
+            --radius-xl: 24px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.4);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .heading-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        ul { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 48px 0;
+            }
+        }
+
+        /* Navbar */
+        nav {
+            background-color: #0A0A0A;
+            border-bottom: 1px solid var(--border);
+            height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 15px;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-sec);
+        }
+
+        .btn-reserve {
+            background-color: #FFFFFF;
+            color: #000000;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-reserve:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 2px;
+            background-color: white;
+            transition: var(--transition);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: calc(100vh - 80px);
+            background-color: #0A0A0A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 24px;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px;
+        }
+
+        .hero-logo-large svg {
+            width: 180px;
+            height: auto;
+            filter: drop-shadow(var(--shadow));
+        }
+
+        .hero-title {
+            font-size: 64px;
+            margin: 24px 0 12px;
+        }
+
+        .hero-separator {
+            width: 200px;
+            margin-bottom: 24px;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            color: var(--text-sec);
+            margin-bottom: 40px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-primary {
+            background-color: #FFFFFF;
+            color: #000000;
+            padding: 16px 36px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .btn-outline {
+            border: 1px solid #FFFFFF;
+            color: #FFFFFF;
+            padding: 16px 36px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover, .btn-outline:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .menu-toggle { display: flex; }
+            .hero { 
+                min-height: calc(100vh - 80px);
+                padding: 40px 24px;
+            }
+            .hero-logo-large svg { width: 120px; }
+            .hero-title { font-size: 40px; }
+            .hero-btns { flex-direction: column; width: 100%; border-radius: 20px; }
+            .btn-primary, .btn-outline { width: 100%; }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background-color: #0A0A0A;
+            border-bottom: 1px solid var(--border);
+            padding: 24px;
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 999;
+        }
+
+        .mobile-menu.active { display: flex; }
+
+        /* Reservations section Styles */
+        #reservas {
+            background-color: var(--bg-main);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            font-weight: 300;
+            color: var(--text-sec);
+        }
+
+        .reservation-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        /* Step 1: Barbers */
+        .barber-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .barber-card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid transparent;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .barber-card svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .barber-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .barber-card p {
+            color: var(--text-sec);
+            font-size: 14px;
+        }
+
+        .barber-card.selected {
+            background-color: #FFFFFF;
+            color: #000000;
+        }
+
+        .barber-card.selected svg path,
+        .barber-card.selected svg circle {
+            stroke: #000000;
+        }
+
+        .barber-card.selected p {
+            color: #444444;
+        }
+
+        @media (max-width: 768px) {
+            .barber-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Step 2: Calendar */
+        .calendar-container {
+            background-color: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .calendar-header h3 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .calendar-nav-btns { display: flex; gap: 16px; }
+        .calendar-nav-btns button svg { transition: var(--transition); }
+        .calendar-nav-btns button:hover svg { stroke: var(--text-sec); }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .day-header {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-sec);
+            font-weight: 600;
+            padding-bottom: 12px;
+        }
+
+        .day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .day:hover:not(.empty):not(.past) {
+            background-color: var(--border);
+        }
+
+        .day.selected {
+            background-color: #FFFFFF;
+            color: #000000;
+            border-radius: 50%;
+            font-weight: 700;
+        }
+
+        .day.past {
+            color: #444444;
+            cursor: not-allowed;
+        }
+
+        .day.empty { cursor: default; }
+
+        /* Step 3: Time Selection */
+        .time-section {
+            margin-top: 40px;
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+        }
+
+        .time-pill {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 12px;
+            text-align: center;
+            border-radius: 50px;
+            font-size: 14px;
+            transition: var(--transition);
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .time-pill:hover:not(.occupied) {
+            border-color: #FFFFFF;
+        }
+
+        .time-pill.selected {
+            background-color: #FFFFFF;
+            color: #000000;
+            border-color: #FFFFFF;
+        }
+
+        .time-pill.occupied {
+            background-color: var(--bg-main);
+            color: #444444;
+            text-decoration: line-through;
+            cursor: not-allowed;
+            border-color: transparent;
+        }
+
+        /* Final Button */
+        .confirm-container {
+            margin-top: 48px;
+            text-align: center;
+        }
+
+        .btn-confirm {
+            background-color: #FFFFFF;
+            color: #000000;
+            padding: 20px;
+            width: 100%;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 18px;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-confirm:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #FFFFFF;
+            color: #000000;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 10px 40px rgba(255,255,255,0.2);
+            z-index: 2000;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toast.show {
+            bottom: 40px;
+        }
+
+        /* Services Styles */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .service-card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .service-card:hover {
+            transform: scale(1.02);
+            border-color: var(--text-sec);
+        }
+
+        .service-card svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 24px;
+            stroke: var(--text-main);
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .service-price {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .service-desc {
+            color: var(--text-sec);
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        @media (max-width: 992px) {
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .services-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Team Styles */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .team-card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .team-img-placeholder {
+            background-color: #0A0A0A;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .team-img-placeholder svg {
+            width: 120px;
+            height: 120px;
+            stroke: #FFFFFF;
+            stroke-width: 1;
+        }
+
+        .team-info {
+            padding: 32px;
+        }
+
+        .team-info h3 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .team-specialty {
+            color: var(--text-sec);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .team-exp {
+            display: block;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .team-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background-color: #0A0A0A;
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            color: var(--text-main);
+        }
+
+        /* Gallery Styles */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .gallery-item {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            background-color: #2A2A2A;
+        }
+
+        .gallery-item svg {
+            width: 60px;
+            height: 60px;
+            stroke: #FFFFFF;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item { height: 150px; }
+        }
+
+        /* Testimonials Styles */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            transition: var(--transition);
+        }
+
+        .testimonial-card svg.quote {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 16px;
+            stroke: #FFFFFF;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--text-sec);
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+
+        .testimonial-footer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .client-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .client-avatar svg { width: 24px; height: 24px; }
+
+        .client-info h4 { font-size: 16px; margin-bottom: 4px; }
+        .stars { display: flex; gap: 4px; }
+        .stars svg { width: 14px; height: 14px; fill: #FFFFFF; stroke: none; }
+
+        @media (max-width: 992px) {
+            .testimonials-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Contact Styles */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .contact-info h3 { font-size: 24px; margin-bottom: 24px; }
+        .contact-item { display: flex; gap: 16px; margin-bottom: 20px; color: var(--text-sec); }
+        .contact-item svg { width: 20px; height: 20px; stroke: #FFFFFF; flex-shrink: 0; }
+
+        .btn-whatsapp {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background-color: #FFFFFF;
+            color: #000000;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-top: 32px;
+            transition: var(--transition);
+        }
+
+        .map-placeholder {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            height: 250px;
+            margin-top: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .map-placeholder svg { width: 48px; height: 48px; stroke: #FFFFFF; }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            color: #FFFFFF;
+            font-family: inherit;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #FFFFFF;
+            outline: none;
+        }
+
+        .btn-submit {
+            background-color: #FFFFFF;
+            color: #000000;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .contact-layout { grid-template-columns: 1fr; }
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #0A0A0A;
+            padding: 60px 0 32px;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; }
+        .social-links { display: flex; gap: 20px; }
+        .social-links svg { width: 24px; height: 24px; stroke: #FFFFFF; transition: var(--transition); }
+        .social-links svg:hover { opacity: 0.7; }
+        .footer-separator { width: 100%; margin-bottom: 32px; }
+        .copyright { text-align: center; color: var(--text-sec); font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .footer-content { flex-direction: column; gap: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-content">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="35" y="10" width="30" height="80" rx="15" fill="white"/>
+                    <path d="M35 25L65 40V55L35 40V25Z" fill="#E63946"/>
+                    <path d="M35 60L65 75V90L35 75V60Z" fill="#E63946"/>
+                    <path d="M35 10L65 25V40L35 25V10Z" fill="#1D3557"/>
+                    <path d="M35 45L65 60V75L35 60V45Z" fill="#1D3557"/>
+                    <rect x="30" y="5" width="40" height="10" rx="5" fill="white"/>
+                    <rect x="30" y="85" width="40" height="10" rx="5" fill="white"/>
+                </svg>
+                <span class="heading-font">AL CORTE</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#reservas">Reservas</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#equipo">Equipo</a></li>
+                <li><a href="#galeria">Galería</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+                <button class="btn-reserve">Reservar</button>
+            </ul>
+            <button class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#reservas" onclick="toggleMenu()">Reservas</a>
+        <a href="#servicios" onclick="toggleMenu()">Servicios</a>
+        <a href="#equipo" onclick="toggleMenu()">Equipo</a>
+        <a href="#galeria" onclick="toggleMenu()">Galería</a>
+        <a href="#contacto" onclick="toggleMenu()">Contacto</a>
+        <button class="btn-primary" style="margin-top: 10px;">Reservar turno</button>
+    </div>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-logo-large">
+                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Grabado style logo: barber pole with crossed scissors and comb -->
+                    <rect x="85" y="30" width="30" height="140" rx="15" fill="white"/>
+                    <path d="M85 50L115 70V90L85 70V50Z" fill="#E63946"/>
+                    <path d="M85 100L115 120V140L85 120V100Z" fill="#E63946"/>
+                    <path d="M85 30L115 50V70L85 50V30Z" fill="#1D3557"/>
+                    <path d="M85 75L115 95V115L85 95V75Z" fill="#1D3557"/>
+                    <rect x="80" y="20" width="40" height="15" rx="7" fill="white"/>
+                    <rect x="80" y="165" width="40" height="15" rx="7" fill="white"/>
+                    <!-- Scissors -->
+                    <g transform="rotate(-45 100 100)">
+                        <rect x="95" y="40" width="10" height="120" rx="5" fill="white"/>
+                        <circle cx="100" cy="165" r="15" stroke="white" stroke-width="4"/>
+                    </g>
+                    <g transform="rotate(45 100 100)">
+                        <rect x="95" y="40" width="10" height="120" rx="5" fill="white"/>
+                        <circle cx="100" cy="165" r="15" stroke="white" stroke-width="4"/>
+                    </g>
+                    <!-- Comb -->
+                    <path d="M60 140 H140 V155 H60 Z" fill="white"/>
+                    <rect x="65" y="155" width="2" height="10" fill="white"/>
+                    <rect x="70" y="155" width="2" height="10" fill="white"/>
+                    <rect x="75" y="155" width="2" height="10" fill="white"/>
+                    <rect x="80" y="155" width="2" height="10" fill="white"/>
+                    <rect x="85" y="155" width="2" height="10" fill="white"/>
+                    <rect x="90" y="155" width="2" height="10" fill="white"/>
+                    <rect x="95" y="155" width="2" height="10" fill="white"/>
+                    <rect x="100" y="155" width="2" height="10" fill="white"/>
+                    <rect x="105" y="155" width="2" height="10" fill="white"/>
+                    <rect x="110" y="155" width="2" height="10" fill="white"/>
+                    <rect x="115" y="155" width="2" height="10" fill="white"/>
+                    <rect x="120" y="155" width="2" height="10" fill="white"/>
+                    <rect x="125" y="155" width="2" height="10" fill="white"/>
+                    <rect x="130" y="155" width="2" height="10" fill="white"/>
+                    <rect x="135" y="155" width="2" height="10" fill="white"/>
+                </svg>
+            </div>
+            <h1 class="hero-title">AL CORTE</h1>
+            <svg class="hero-separator" viewBox="0 0 200 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 10 Q 50 0, 100 10 T 200 10" stroke="white" stroke-width="1" fill="none"/>
+                <circle cx="100" cy="10" r="3" fill="white"/>
+            </svg>
+            <p class="hero-subtitle">Cortes de autor. Resultado impecable.</p>
+            <div class="hero-btns">
+                <a href="#reservas" class="btn-primary">Reservar turno</a>
+                <a href="#servicios" class="btn-outline">Ver servicios</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="reservas">
+        <div class="container">
+            <div class="section-header">
+                <h2>Reservá tu turno</h2>
+                <p>Rápido, simple y sin llamadas.</p>
+            </div>
+
+            <div class="reservation-steps">
+                <!-- Paso 1 -->
+                <div class="step">
+                    <p class="step-title">¿Con quién te vas a cortar?</p>
+                    <div class="barber-grid">
+                        <div class="barber-card" onclick="selectBarber(this, 1)">
+                            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="40" r="20" stroke="white" stroke-width="2"/>
+                                <path d="M20 90C20 70 33.4315 55 50 55C66.5685 55 80 70 80 90" stroke="white" stroke-width="2"/>
+                                <path d="M35 30Q50 15 65 30" stroke="white" stroke-width="1.5" fill="none"/>
+                            </svg>
+                            <h3>Barbero 1</h3>
+                            <p>Cortes clásicos</p>
+                        </div>
+                        <div class="barber-card" onclick="selectBarber(this, 2)">
+                            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="40" r="20" stroke="white" stroke-width="2"/>
+                                <path d="M20 90C20 70 33.4315 55 50 55C66.5685 55 80 70 80 90" stroke="white" stroke-width="2"/>
+                                <path d="M30 35L50 25L70 35" stroke="white" stroke-width="1.5" fill="none"/>
+                            </svg>
+                            <h3>Barbero 2</h3>
+                            <p>Degradados y diseños</p>
+                        </div>
+                        <div class="barber-card" onclick="selectBarber(this, 3)">
+                            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="40" r="20" stroke="white" stroke-width="2"/>
+                                <path d="M20 90C20 70 33.4315 55 50 55C66.5685 55 80 70 80 90" stroke="white" stroke-width="2"/>
+                                <path d="M40 45Q50 55 60 45" stroke="white" stroke-width="1.5" fill="none"/>
+                            </svg>
+                            <h3>Barbero 3</h3>
+                            <p>Barba y perfiles</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paso 2 -->
+                <div class="step">
+                    <p class="step-title">Seleccioná la fecha</p>
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <h3 id="currentMonthYear">Abril 2024</h3>
+                            <div class="calendar-nav-btns">
+                                <button onclick="changeMonth(-1)">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                                </button>
+                                <button onclick="changeMonth(1)">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paso 3 -->
+                <div id="timeSection" class="time-section">
+                    <p class="step-title">Seleccioná la hora</p>
+                    <div class="time-grid" id="timeGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <div class="confirm-container">
+                    <button id="btnConfirm" class="btn-confirm" disabled onclick="confirmBooking()">Confirmar reserva</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" style="background-color: var(--bg-alt);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nuestros servicios</h2>
+                <p>Calidad artesanal en cada detalle.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3L20 12L6 21V3Z"></path></svg>
+                    <h3>Corte clásico</h3>
+                    <span class="service-price">$20.000</span>
+                    <p class="service-desc">El corte tradicional con tijera y máquina, terminado con navaja.</p>
+                </div>
+                <div class="service-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    <h3>Degrade</h3>
+                    <span class="service-price">$22.000</span>
+                    <p class="service-desc">Técnica de fade perfecta, desde cero o sombreado.</p>
+                </div>
+                <div class="service-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <h3>Barba completa</h3>
+                    <span class="service-price">$15.000</span>
+                    <p class="service-desc">Perfilado, rebaje y cuidado con aceites esenciales.</p>
+                </div>
+                <div class="service-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <h3>Corte + Barba</h3>
+                    <span class="service-price">$30.000</span>
+                    <p class="service-desc">El combo completo para una renovación total.</p>
+                </div>
+                <div class="service-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                    <h3>Cejas</h3>
+                    <span class="service-price">$5.000</span>
+                    <p class="service-desc">Limpieza y definición para enmarcar tu mirada.</p>
+                </div>
+                <div class="service-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                    <h3>Afeitado clásico</h3>
+                    <span class="service-price">$10.000</span>
+                    <p class="service-desc">Con toalla caliente, espuma artesanal y navaja.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="equipo">
+        <div class="container">
+            <div class="section-header">
+                <h2>Conocé al equipo</h2>
+                <p>Expertos en el arte de la barbería.</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-img-placeholder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <div class="team-info">
+                        <h3>Barbero 1</h3>
+                        <p class="team-specialty">Maestro del corte clásico</p>
+                        <span class="team-exp">10 años de experiencia</span>
+                        <div class="team-tags">
+                            <span class="tag">Navaja</span>
+                            <span class="tag">Tijera</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-img-placeholder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <div class="team-info">
+                        <h3>Barbero 2</h3>
+                        <p class="team-specialty">Especialista en Fades</p>
+                        <span class="team-exp">6 años de experiencia</span>
+                        <div class="team-tags">
+                            <span class="tag">Degradados</span>
+                            <span class="tag">Color</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-img-placeholder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <div class="team-info">
+                        <h3>Barbero 3</h3>
+                        <p class="team-specialty">Experto en Barbas</p>
+                        <span class="team-exp">8 años de experiencia</span>
+                        <div class="team-tags">
+                            <span class="tag">Tratamientos</span>
+                            <span class="tag">Perfilado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="galeria" style="background-color: var(--bg-alt);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nuestro trabajo</h2>
+                <p>Pasión por los detalles.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3L20 12L6 21V3Z"></path></svg>
+                </div>
+                <div class="gallery-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                </div>
+                <div class="gallery-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </div>
+                <div class="gallery-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path></svg>
+                </div>
+                <div class="gallery-item">
+                    <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="35" y="10" width="30" height="80" rx="15" fill="white"/>
+                    </svg>
+                </div>
+                <div class="gallery-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonios">
+        <div class="container">
+            <div class="section-header">
+                <h2>Lo que dicen nuestros clientes</h2>
+                <p>Nuestra mejor garantía es tu satisfacción.</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <svg class="quote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2H5c-1.25 0-2 .75-2 2v3c0 1.25.75 2 2 2h3c0 4-2 5-2 5M15 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2h-3c-1.25 0-2 .75-2 2v3c0 1.25.75 2 2 2h3c0 4-2 5-2 5"></path></svg>
+                    <p class="testimonial-text">"Excelente atención y el corte quedó impecable. Se nota la dedicación y el profesionalismo en cada detalle."</p>
+                    <div class="testimonial-footer">
+                        <div class="client-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </div>
+                        <div class="client-info">
+                            <h4>Juan Pérez</h4>
+                            <div class="stars">
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <svg class="quote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2H5c-1.25 0-2 .75-2 2v3c0 1.25.75 2 2 2h3c0 4-2 5-2 5M15 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2h-3c-1.25 0-2 .75-2 2v3c0 1.25.75 2 2 2h3c0 4-2 5-2 5"></path></svg>
+                    <p class="testimonial-text">"La mejor barbería de la zona. El ambiente es genial y los barberos son unos genios. El sistema de reservas es muy práctico."</p>
+                    <div class="testimonial-footer">
+                        <div class="client-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </div>
+                        <div class="client-info">
+                            <h4>Carlos Gomez</h4>
+                            <div class="stars">
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <svg class="quote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2H5c-1.25 0-2 .75-2 2v3c0 1.25.75 2 2 2h3c0 4-2 5-2 5M15 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2h-3c-1.25 0-2 .75-2 2v3c0 1.25.75 2 2 2h3c0 4-2 5-2 5"></path></svg>
+                    <p class="testimonial-text">"Súper recomendable. Me corté con el Barbero 2 y entendió al toque lo que quería. Volveré sin dudas."</p>
+                    <div class="testimonial-footer">
+                        <div class="client-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </div>
+                        <div class="client-info">
+                            <h4>Mateo Ruiz</h4>
+                            <div class="stars">
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" style="background-color: var(--bg-alt);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Encontranos</h2>
+                <p>Vení a vivir la experiencia Al Corte.</p>
+            </div>
+            <div class="contact-layout">
+                <div class="contact-info" style="width: 100%; max-width: 800px; margin: 0 auto; text-align: center;">
+                    <h3>Información</h3>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                        <div class="contact-item" style="justify-content: center;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <p>Av. Cabildo 2626, Ciudad Autónoma de Buenos Aires</p>
+                        </div>
+                        <div class="contact-item" style="justify-content: center;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            <p>Lun–Sáb: 09:00 – 20:00</p>
+                        </div>
+                        <div class="contact-item" style="justify-content: center;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            <p>+54 11 1234-5678</p>
+                        </div>
+                    </div>
+                    
+                    <div class="map-container" style="width: 100%; height: 400px; margin-bottom: 2rem; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border);">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3285.3468512255747!2d-58.46166168477145!3d-34.56885318046897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb5da42907997%3A0xe1038e8e78051787!2sAv.%20Cabildo%202626%2C%20C1428AAX%20CABA!5e0!3m2!1sen!2sar!4v1650000000000!5m2!1sen!2sar" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+
+                    <a href="https://wa.me/541112345678" class="btn-whatsapp" style="display: inline-flex; width: auto; margin-top: 0;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                        Escribinos por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="toast" class="toast">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span>Turno reservado con éxito</span>
+    </div>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            const spans = menuToggle.getElementsByTagName('span');
+            if (mobileMenu.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+
+        // Reservation logic
+        let selectedBarber = null;
+        let selectedDate = null;
+        let selectedTime = null;
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+
+        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+        function selectBarber(el, id) {
+            document.querySelectorAll('.barber-card').forEach(card => card.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedBarber = id;
+            checkConfirmable();
+        }
+
+        function initCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            const header = document.getElementById('currentMonthYear');
+            if (!grid || !header) return;
+            
+            grid.innerHTML = '';
+            header.innerText = `${monthNames[currentMonth]} ${currentYear}`;
+
+            const days = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+            days.forEach(d => {
+                const h = document.createElement('div');
+                h.className = 'day-header';
+                h.innerText = d;
+                grid.appendChild(h);
+            });
+
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            const emptySlots = (firstDay === 0) ? 6 : firstDay - 1;
+
+            for (let i = 0; i < emptySlots; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'day empty';
+                grid.appendChild(empty);
+            }
+
+            const today = new Date();
+            today.setHours(0,0,0,0);
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dayEl = document.createElement('div');
+                const date = new Date(currentYear, currentMonth, d);
+                dayEl.className = 'day';
+                dayEl.innerText = d;
+                
+                if (date < today) {
+                    dayEl.classList.add('past');
+                } else {
+                    dayEl.onclick = () => selectDate(dayEl, date);
+                    if (selectedDate && date.getTime() === selectedDate.getTime()) {
+                        dayEl.classList.add('selected');
+                    }
+                }
+                grid.appendChild(dayEl);
+            }
+        }
+
+        function changeMonth(dir) {
+            currentMonth += dir;
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            initCalendar();
+        }
+
+        function selectDate(el, date) {
+            document.querySelectorAll('.day').forEach(d => d.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedDate = date;
+            
+            const timeSec = document.getElementById('timeSection');
+            timeSec.style.display = 'block';
+            initTimes();
+            checkConfirmable();
+            
+            // Scroll to time section smoothly
+            setTimeout(() => {
+                timeSec.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+
+        function initTimes() {
+            const grid = document.getElementById('timeGrid');
+            grid.innerHTML = '';
+            const times = ["09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
+            
+            times.forEach(t => {
+                const pill = document.createElement('div');
+                pill.className = 'time-pill';
+                pill.innerText = t;
+                
+                if (Math.random() < 0.2) {
+                    pill.classList.add('occupied');
+                } else {
+                    pill.onclick = () => {
+                        document.querySelectorAll('.time-pill').forEach(tp => tp.classList.remove('selected'));
+                        pill.classList.add('selected');
+                        selectedTime = t;
+                        checkConfirmable();
+                    };
+                    if (selectedTime === t) pill.classList.add('selected');
+                }
+                grid.appendChild(pill);
+            });
+        }
+
+        function checkConfirmable() {
+            const btn = document.getElementById('btnConfirm');
+            btn.disabled = !(selectedBarber && selectedDate && selectedTime);
+        }
+
+        function confirmBooking() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        document.getElementById('btnConfirm').addEventListener('click', confirmBooking);
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        initCalendar();
+    </script>
+</body>
+</html>
